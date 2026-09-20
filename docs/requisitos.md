@@ -48,13 +48,20 @@ User Stories
 ### Requisitos não funcionais
 
 **RNF01** — O sistema é implementado em C++14 ou superior.
+
 **RNF02** — A interface é textual, operada por menus numerados em terminal.
+
 **RNF03** — O código é modularizado em `src/` e `include/`, com um par `.h`/`.cpp` por classe.
+
 **RNF04** — A compilação e a execução ocorrem pelos comandos `make` e `make run`.
 **RNF05** — O sistema não encerra abruptamente diante de entrada inválida: opções fora do intervalo, texto onde se espera número e códigos de assento inexistentes são tratados e reapresentados ao usuário.
+
 **RNF06** — Toda memória alocada dinamicamente é liberada ao término da execução.
+
 **RNF07** — A documentação da API é gerada por Doxygen a partir de comentários no código.
+
 **RNF08** — O cinema possui exatamente 3 salas, cada uma com 5 fileiras (A a E) de 5 assentos.
+
 **RNF09** — Os dados são voláteis: persistência em arquivo está fora do escopo desta versão.
 
 
