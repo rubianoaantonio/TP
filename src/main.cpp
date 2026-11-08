@@ -10,6 +10,10 @@
 
 using namespace std;
 
+/**
+ * @brief Cria o cinema e executa o laço principal.
+ * @return 0 se o programa terminar normalmente, 1 se ocorrer um erro inesperado.
+ */
 int main() {
     try {
         Cinema cinema;
