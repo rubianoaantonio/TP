@@ -9,7 +9,6 @@
 
 namespace {
 
-const int kMinutosPorDia = 24 * 60;
 const char kPrimeiraFileira = 'A';
 const char kSimboloLivre = '.';
 const char kSimboloOcupado = 'X';
@@ -35,14 +34,6 @@ const Horario& Sessao::getHorario() const { return horario_; }
 
 Horario Sessao::calcularTermino() const {
     return horario_.somarMinutos(filme_->getDuracao());
-}
-
-int Sessao::calcularInicioAbsoluto() const {
-    return calcularMinutosAbsolutos(data_, horario_);
-}
-
-int Sessao::calcularFimAbsoluto() const {
-    return calcularInicioAbsoluto() + filme_->getDuracao();
 }
 
 void Sessao::exibirMapa() const {
@@ -111,10 +102,6 @@ bool Sessao::ehCodigoValido(const std::string& codigo) {
     int fileira = letra - kPrimeiraFileira;
     int coluna = codigo[1] - '1';
     return fileira >= 0 && fileira < kFileiras && coluna >= 0 && coluna < kAssentosPorFileira;
-}
-
-int Sessao::calcularMinutosAbsolutos(const Data& data, const Horario& horario) {
-    return data.emDias() * kMinutosPorDia + horario.emMinutos();
 }
 
 void Sessao::converterCodigo(const std::string& codigo, int& fileira, int& coluna) {
