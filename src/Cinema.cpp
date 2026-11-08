@@ -9,6 +9,8 @@
 #include "Filme.h"
 #include "Sala.h"
 
+using namespace std;
+
 namespace {
 
 const char* const kLoginAdministrador = "admin";
@@ -41,7 +43,7 @@ Cinema::~Cinema() {
 void Cinema::executar() {
     try {
         while (true) {
-            std::cout << "\n=== Cine PDS ===\n"
+            cout << "\n=== Cine PDS ===\n"
                       << kOpcaoEntrar << ". Entrar\n"
                       << kOpcaoCadastrar << ". Criar conta\n"
                       << kOpcaoSair << ". Sair\n";
@@ -50,19 +52,19 @@ void Cinema::executar() {
                 break;
             executarOpcao(opcao);
         }
-    } catch (const std::runtime_error&) {
-        std::cout << "\nEntrada encerrada.\n";
+    } catch (const runtime_error&) {
+        cout << "\nEntrada encerrada.\n";
     }
-    std::cout << "Até logo!\n";
+    cout << "Até logo!\n";
 }
 
-void Cinema::cadastrarCliente(const std::string& login, const std::string& senha) {
+void Cinema::cadastrarCliente(const string& login, const string& senha) {
     if (loginExiste(login))
-        throw std::invalid_argument("O login \"" + login + "\" já está em uso.");
+        throw invalid_argument("O login \"" + login + "\" já está em uso.");
     clientes_.push_back(new Cliente(login, senha));
 }
 
-Usuario* Cinema::autenticar(const std::string& login, const std::string& senha) const {
+Usuario* Cinema::autenticar(const string& login, const string& senha) const {
     Usuario* usuario = nullptr;
     if (administrador_->getLogin() == login)
         usuario = administrador_;
@@ -71,15 +73,15 @@ Usuario* Cinema::autenticar(const std::string& login, const std::string& senha) 
             usuario = cliente;
 
     if (usuario == nullptr)
-        throw std::invalid_argument("Login não encontrado. Crie uma conta para continuar.");
+        throw invalid_argument("Login não encontrado. Crie uma conta para continuar.");
     if (!usuario->verificarSenha(senha))
-        throw std::invalid_argument("Senha incorreta.");
+        throw invalid_argument("Senha incorreta.");
     return usuario;
 }
 
-void Cinema::lancarFilme(const std::string& nome, int duracaoMinutos, int numeroSala,
+void Cinema::lancarFilme(const string& nome, int duracaoMinutos, int numeroSala,
                          const Data& estreia, int diasEmCartaz,
-                         const std::vector<Horario>& horarios) {
+                         const vector<Horario>& horarios) {
     Sala* sala = buscarSala(numeroSala);
     Filme* filme = new Filme(nome, duracaoMinutos, sala);
     try {
@@ -93,24 +95,24 @@ void Cinema::lancarFilme(const std::string& nome, int duracaoMinutos, int numero
 
 void Cinema::excluirFilme(int indice) {
     if (indice < 0 || indice >= static_cast<int>(filmes_.size()))
-        throw std::out_of_range("Filme inexistente.");
+        throw out_of_range("Filme inexistente.");
     if (filmes_[indice]->temIngressosVendidos())
-        throw std::logic_error("O filme tem ingressos vendidos e não pode ser excluído.");
+        throw logic_error("O filme tem ingressos vendidos e não pode ser excluído.");
     delete filmes_[indice];
     filmes_.erase(filmes_.begin() + indice);
 }
 
-const std::vector<Filme*>& Cinema::getFilmes() const {
+const vector<Filme*>& Cinema::getFilmes() const {
     return filmes_;
 }
 
 void Cinema::listarFilmes() const {
     if (filmes_.empty()) {
-        std::cout << "Nenhum filme em cartaz.\n";
+        cout << "Nenhum filme em cartaz.\n";
         return;
     }
     for (size_t i = 0; i < filmes_.size(); i++)
-        std::cout << i + 1 << ". " << filmes_[i]->getNome()
+        cout << i + 1 << ". " << filmes_[i]->getNome()
                   << " (" << filmes_[i]->getDuracao() << " min) - Sala "
                   << filmes_[i]->getSala()->getNumero() << '\n';
 }
@@ -119,7 +121,7 @@ Sala* Cinema::buscarSala(int numero) const {
     for (Sala* sala : salas_)
         if (sala->getNumero() == numero)
             return sala;
-    throw std::invalid_argument("Sala " + std::to_string(numero) + " não existe.");
+    throw invalid_argument("Sala " + to_string(numero) + " não existe.");
 }
 
 void Cinema::executarOpcao(int opcao) {
@@ -128,26 +130,26 @@ void Cinema::executarOpcao(int opcao) {
             entrar();
         else if (opcao == kOpcaoCadastrar)
             cadastrarPeloMenu();
-    } catch (const std::logic_error& erro) {
-        std::cout << "Erro: " << erro.what() << '\n';
+    } catch (const logic_error& erro) {
+        cout << "Erro: " << erro.what() << '\n';
     }
 }
 
 void Cinema::entrar() {
-    std::string login = Entrada::lerTexto("Login: ");
-    std::string senha = Entrada::lerTexto("Senha: ");
+    string login = Entrada::lerTexto("Login: ");
+    string senha = Entrada::lerTexto("Senha: ");
     Usuario* usuario = autenticar(login, senha);
     usuario->exibirMenu(*this);  // polimorfismo: menu de Cliente ou de Administrador
 }
 
 void Cinema::cadastrarPeloMenu() {
-    std::string login = Entrada::lerTexto("Novo login: ");
-    std::string senha = Entrada::lerTexto("Nova senha: ");
+    string login = Entrada::lerTexto("Novo login: ");
+    string senha = Entrada::lerTexto("Nova senha: ");
     cadastrarCliente(login, senha);
-    std::cout << "Conta criada. Use a opção Entrar para acessar.\n";
+    cout << "Conta criada. Use a opção Entrar para acessar.\n";
 }
 
-bool Cinema::loginExiste(const std::string& login) const {
+bool Cinema::loginExiste(const string& login) const {
     if (administrador_->getLogin() == login)
         return true;
     for (const Cliente* cliente : clientes_)

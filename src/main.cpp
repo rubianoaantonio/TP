@@ -8,12 +8,14 @@
 
 #include "Cinema.h"
 
+using namespace std;
+
 int main() {
     try {
         Cinema cinema;
         cinema.executar();
-    } catch (const std::exception& erro) {
-        std::cerr << "Erro inesperado: " << erro.what() << '\n';
+    } catch (const exception& erro) {
+        cerr << "Erro inesperado: " << erro.what() << '\n';
         return 1;
     }
     return 0;

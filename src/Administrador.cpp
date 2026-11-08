@@ -8,6 +8,8 @@
 #include "Entrada.h"
 #include "Horario.h"
 
+using namespace std;
+
 namespace {
 
 const int kOpcaoSair = 0;
@@ -21,12 +23,12 @@ const int kMaximoHorariosPorDia = 10;
 
 }  // namespace
 
-Administrador::Administrador(const std::string& login, const std::string& senha)
+Administrador::Administrador(const string& login, const string& senha)
     : Usuario(login, senha) {}
 
 void Administrador::exibirMenu(Cinema& cinema) {
     while (true) {
-        std::cout << "\n=== Administrador ===\n"
+        cout << "\n=== Administrador ===\n"
                   << kOpcaoLancar << ". Lançar filme\n"
                   << kOpcaoExcluir << ". Excluir filme\n"
                   << kOpcaoListar << ". Ver filmes em cartaz\n"
@@ -36,8 +38,8 @@ void Administrador::exibirMenu(Cinema& cinema) {
             return;
         try {
             executarOpcao(opcao, cinema);
-        } catch (const std::logic_error& erro) {
-            std::cout << "Erro: " << erro.what() << '\n';
+        } catch (const logic_error& erro) {
+            cout << "Erro: " << erro.what() << '\n';
         }
     }
 }
@@ -57,23 +59,23 @@ void Administrador::executarOpcao(int opcao, Cinema& cinema) {
 }
 
 void Administrador::lancarFilme(Cinema& cinema) {
-    std::string nome = Entrada::lerTexto("Nome do filme: ");
+    string nome = Entrada::lerTexto("Nome do filme: ");
     int duracao = Entrada::lerInteiro("Duração (minutos): ", 1, kDuracaoMaximaMinutos);
     int sala = Entrada::lerInteiro("Sala (1 a 3): ", 1, Cinema::kQuantidadeSalas);
-    std::cout << "Data de estreia\n";
+    cout << "Data de estreia\n";
     Data estreia = lerData();
     int dias = Entrada::lerInteiro("Dias em cartaz: ", 1, kMaximoDiasEmCartaz);
-    std::vector<Horario> horarios = lerHorarios();
+    vector<Horario> horarios = lerHorarios();
 
     cinema.lancarFilme(nome, duracao, sala, estreia, dias, horarios);
-    std::cout << "Filme lançado com " << dias * static_cast<int>(horarios.size())
+    cout << "Filme lançado com " << dias * static_cast<int>(horarios.size())
               << " sessão(ões).\n";
 }
 
 void Administrador::excluirFilme(Cinema& cinema) {
     int numeroFilmes = static_cast<int>(cinema.getFilmes().size());
     if (numeroFilmes == 0) {
-        std::cout << "Nenhum filme em cartaz.\n";
+        cout << "Nenhum filme em cartaz.\n";
         return;
     }
     cinema.listarFilmes();
@@ -81,7 +83,7 @@ void Administrador::excluirFilme(Cinema& cinema) {
     if (escolha == 0)
         return;
     cinema.excluirFilme(escolha - 1);
-    std::cout << "Filme excluído.\n";
+    cout << "Filme excluído.\n";
 }
 
 Data Administrador::lerData() {
@@ -91,11 +93,11 @@ Data Administrador::lerData() {
     return Data(dia, mes, ano);  // lança exceção se a data não existir (ex.: 31/02)
 }
 
-std::vector<Horario> Administrador::lerHorarios() {
+vector<Horario> Administrador::lerHorarios() {
     int quantidade = Entrada::lerInteiro("Quantos horários por dia: ", 1, kMaximoHorariosPorDia);
-    std::vector<Horario> horarios;
+    vector<Horario> horarios;
     for (int i = 1; i <= quantidade; i++) {
-        std::cout << "Horário " << i << '\n';
+        cout << "Horário " << i << '\n';
         int hora = Entrada::lerInteiro("  Hora (0 a 23): ", 0, 23);
         int minuto = Entrada::lerInteiro("  Minuto (0 a 59): ", 0, 59);
         horarios.push_back(Horario(hora, minuto));
