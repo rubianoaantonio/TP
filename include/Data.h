@@ -41,16 +41,6 @@ public:
     Data somarDias(int n) const;
 
     /**
-     * @brief Converte a data em dias desde 01/01/2000.
-     *
-     * Permite comparar e somar datas como números inteiros,
-     * por exemplo para checar conflito entre sessões que
-     * atravessam a meia-noite.
-     * @return Quantidade de dias desde 01/01/2000 (01/01/2000 retorna 0).
-     */
-    int emDias() const;
-
-    /**
      * @brief Formata a data como texto.
      * @return Texto no formato DD/MM/AA (ex.: 05/11/26).
      */
