@@ -58,18 +58,6 @@ public:
      */
     Horario calcularTermino() const;
 
-    /**
-     * @brief Início da sessão em minutos desde 01/01/2000 às 00:00.
-     * @return Minutos absolutos do início.
-     */
-    int calcularInicioAbsoluto() const;
-
-    /**
-     * @brief Término da sessão em minutos desde 01/01/2000 às 00:00.
-     * @return Minutos absolutos do término (sem o intervalo de limpeza).
-     */
-    int calcularFimAbsoluto() const;
-
     /** @brief Exibe o mapa de assentos, distinguindo livres (.) de ocupados (X). */
     void exibirMapa() const;
 
@@ -108,17 +96,6 @@ public:
      * @return true se for de A1 a E5.
      */
     static bool ehCodigoValido(const std::string& codigo);
-
-    /**
-     * @brief Converte data e horário em minutos desde 01/01/2000 às 00:00.
-     *
-     * Usado para comparar sessões de dias diferentes, inclusive as que
-     * atravessam a meia-noite.
-     * @param data Data.
-     * @param horario Horário.
-     * @return Minutos absolutos.
-     */
-    static int calcularMinutosAbsolutos(const Data& data, const Horario& horario);
 
 private:
     static void converterCodigo(const std::string& codigo, int& fileira, int& coluna);
