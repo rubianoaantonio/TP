@@ -33,8 +33,8 @@ Cada sala tem 25 assentos, em 5 fileiras (A a E) de 5 assentos. Sessões podem p
 
 | ID | User Story | Critério de aceitação |
 | --- | --- | --- |
-| US01 | Como visitante, quero criar uma conta informando login e senha, para poder comprar ingressos. | Logins duplicados são recusados. |
-| US02 | Como usuário cadastrado, quero entrar com meu login e senha, para acessar as funções do meu perfil. | |
+| US01 | Como visitante, quero criar uma conta informando login e senha, para poder comprar ingressos. | Logins duplicados (inclusive o login do administrador) e login ou senha vazios são recusados. |
+| US02 | Como usuário cadastrado, quero entrar com meu login e senha, para acessar as funções do meu perfil. | Após a autenticação, o sistema abre o menu correspondente ao perfil (cliente ou administrador). |
 | US03 | Como visitante, quero ser avisado quando o login não existe ou a senha está incorreta, para saber que preciso me cadastrar ou corrigir os dados. | |
 | US04 | Como dono do cinema, quero ter um login de administrador exclusivo, para que nenhum cliente consiga alterar a programação. | O administrador é criado na inicialização do sistema e não pode ser gerado pelo cadastro de novos usuários. |
 
@@ -42,24 +42,24 @@ Cada sala tem 25 assentos, em 5 fileiras (A a E) de 5 assentos. Sessões podem p
 
 | ID | User Story | Critério de aceitação |
 | --- | --- | --- |
-| US05 | Como administrador, quero lançar um novo filme informando nome, duração, sala, data de estreia, quantidade de dias em cartaz e horários de exibição, para montar a programação do cinema. | O sistema gera automaticamente uma sessão para cada combinação de dia e horário informados. |
-| US06 | Como administrador, quero ser impedido de agendar uma sessão que se sobreponha a outra já existente na mesma sala, para não haver dois filmes passando ao mesmo tempo no mesmo espaço. | A sobreposição considera a duração do filme mais 15 minutos de intervalo entre sessões. |
-| US07 | Como administrador, quero excluir um filme do cartaz, para retirar da programação títulos que encerraram a temporada. | |
+| US05 | Como administrador, quero lançar um novo filme informando nome, duração, sala, data de estreia, quantidade de dias em cartaz e horários de exibição, para montar a programação do cinema. | O sistema gera automaticamente uma sessão para cada combinação de dia e horário informados. Limites aceitos: duração de 1 a 600 minutos, sala de 1 a 3, ano de 2000 a 2100, de 1 a 365 dias em cartaz e de 1 a 10 horários por dia. Datas inexistentes (ex.: 31/02) são recusadas. |
+| US06 | Como administrador, quero ser impedido de agendar uma sessão que se sobreponha a outra já existente na mesma sala, para não haver dois filmes passando ao mesmo tempo no mesmo espaço. | A sobreposição considera a duração do filme mais 15 minutos de intervalo entre sessões, inclusive entre sessões do próprio filme e sessões que passam da meia-noite. Se qualquer sessão entrar em conflito, nenhuma sessão do filme é criada. |
+| US07 | Como administrador, quero excluir um filme do cartaz, para retirar da programação títulos que encerraram a temporada. | Ao ser excluído, o filme libera os horários que ocupava na agenda da sala. |
 | US08 | Como administrador, quero ser impedido de excluir um filme que possua ingressos vendidos, para não invalidar a compra de clientes. | |
-| US09 | Como administrador, quero ver a lista de filmes em cartaz com suas salas, para conferir a programação vigente. | |
+| US09 | Como administrador, quero ver a lista de filmes em cartaz com sua duração e sala, para conferir a programação vigente. | |
 
 **Cliente**
 
 | ID | User Story | Critério de aceitação |
 | --- | --- | --- |
-| US10 | Como cliente, quero ver a lista de todos os filmes em cartaz, para escolher o que desejo assistir. | |
+| US10 | Como cliente, quero ver a lista de todos os filmes em cartaz, com duração e sala, para escolher o que desejo assistir. | |
 | US11 | Como cliente, quero ver os dias disponíveis do filme escolhido, para selecionar quando vou ao cinema. | |
 | US12 | Como cliente, quero ver os horários de sessão do dia escolhido, para selecionar a que me atende. | |
-| US13 | Como cliente, quero visualizar o mapa de assentos da sessão distinguindo livres de ocupados, para escolher onde sentar. | |
-| US14 | Como cliente, quero selecionar um ou mais assentos em uma única operação, para comprar ingressos junto com meus acompanhantes. | |
-| US15 | Como cliente, quero ser impedido de selecionar um assento já reservado por outro usuário, para não haver duplicidade de lugares. | |
-| US16 | Como cliente, quero acessar a aba "Meus Ingressos" com filme, sala, data, horário e assento de cada compra, para consultar o que adquiri. | |
-| US17 | Como cliente, quero cancelar um ingresso meu, para desistir da sessão. | O assento cancelado volta imediatamente a ficar disponível para outros usuários. |
+| US13 | Como cliente, quero visualizar o mapa de assentos da sessão distinguindo livres de ocupados, para escolher onde sentar. | O mapa mostra as fileiras A a E e os assentos 1 a 5, com "." para livre e "X" para ocupado. |
+| US14 | Como cliente, quero selecionar um ou mais assentos em uma única operação, para comprar ingressos junto com meus acompanhantes. | Os códigos são digitados separados por espaço e aceitam letra minúscula (b2 equivale a B2). Um ingresso é gerado para cada assento. Se algum código for inexistente, repetido ou já ocupado, nenhum assento é reservado. |
+| US15 | Como cliente, quero ser impedido de selecionar um assento já ocupado, para não haver duplicidade de lugares. | |
+| US16 | Como cliente, quero acessar a aba "Meus Ingressos" com filme, sala, data, horário de início e de término e assento de cada compra, para consultar o que adquiri. | |
+| US17 | Como cliente, quero cancelar um ingresso meu, para desistir da sessão. | O ingresso é escolhido pelo número na lista de "Meus Ingressos", e o assento cancelado volta imediatamente a ficar disponível para outros usuários. |
 
 ### Requisitos não funcionais
 
@@ -67,9 +67,9 @@ Cada sala tem 25 assentos, em 5 fileiras (A a E) de 5 assentos. Sessões podem p
 | --- | --- |
 | RNF01 | O sistema é implementado em C++14 ou superior. |
 | RNF02 | A interface é textual, operada por menus numerados em terminal. |
-| RNF03 | O código é modularizado em `src/` e `include/`, com um par `.h`/`.cpp` por classe. |
-| RNF04 | A compilação e a execução ocorrem pelos comandos `make` e `make run`. |
-| RNF05 | O sistema não encerra abruptamente diante de entrada inválida: opções fora do intervalo, texto onde se espera número e códigos de assento inexistentes são tratados e reapresentados ao usuário. |
+| RNF03 | O código é modularizado em `src/` e `include/`, com um par `.h`/`.cpp` por classe e para o módulo auxiliar `Entrada`, além do `main.cpp`. |
+| RNF04 | A compilação e a execução ocorrem pelos comandos `make` e `make run`, e `make clean` remove os arquivos gerados. |
+| RNF05 | O sistema não encerra abruptamente diante de entrada inválida: opções fora do intervalo, texto onde se espera número, datas inexistentes e códigos de assento inexistentes são tratados e reapresentados ao usuário. O fim da entrada (EOF) encerra o programa com mensagem, sem erro. |
 | RNF06 | Toda memória alocada dinamicamente é liberada ao término da execução. |
 | RNF07 | A documentação da API é gerada por Doxygen a partir de comentários no código. |
 | RNF08 | O cinema possui exatamente 3 salas, cada uma com 5 fileiras (A a E) de 5 assentos. |
@@ -79,21 +79,19 @@ Cada sala tem 25 assentos, em 5 fileiras (A a E) de 5 assentos. Sessões podem p
 
 | Classe | Responsabilidades | Colaboradores |
 | --- | --- | --- |
-| **Data** | Armazenar dia, mês e ano; validar se a data existe; comparar-se com outra data; somar dias e gerar nova data; formatar-se como texto (DD/MM/AA) | nenhum |
-| **Horario** | Armazenar hora e minuto; validar o intervalo (0 a 23 horas, 0 a 59 minutos); comparar-se com outro horário; somar minutos e gerar o horário de término; formatar-se como texto (HH:MM) | nenhum |
-| **Usuario** (abstrata) | Armazenar login e senha; verificar se uma senha confere; informar seu login; declarar a interface de menu a ser especializada pelas subclasses | nenhum |
-| **Cliente** (herda de Usuario) | Exibir o menu do cliente; manter a lista de ingressos comprados; adicionar ingresso; listar seus ingressos; cancelar um ingresso e solicitar a liberação do assento; informar se possui ingresso de uma determinada sessão | Usuario, Ingresso, Sessao |
-| **Administrador** (herda de Usuario) | Exibir o menu de administração; encaminhar as operações de lançamento e exclusão de filmes | Usuario, Cinema |
-| **Sala** | Identificar-se pelo número; manter as sessões nela agendadas; detectar conflito de horário para uma nova sessão; registrar sessão agendada | Sessao, Data, Horario |
-| **Filme** | Armazenar nome e duração; criar e possuir suas sessões; listar os dias em que está disponível; listar os horários de um determinado dia; liberar suas sessões ao ser destruído | Sessao, Sala, Data, Horario |
-| **Sessao** | Armazenar data, horário e sala; manter o mapa 5x5 de assentos; exibir o mapa distinguindo assentos livres de ocupados; validar e converter código de assento em posição; reservar assento; liberar assento; informar se há assentos ocupados; calcular seu horário de término | Data, Horario, Sala |
-| **Ingresso** | Referenciar a sessão e o assento adquirido; exibir seus dados ao cliente; devolver o assento à sessão quando cancelado | Sessao |
-| **Cinema** | Criar o administrador na inicialização do sistema; cadastrar novos clientes e autenticar usuários; manter o cartaz de filmes e as três salas; lançar filme validando conflito de sala; excluir filme validando existência de ingressos vendidos; executar o laço principal do sistema; liberar toda a memória alocada | todas as demais classes |
+| **Data** | Armazenar dia, mês e ano; validar se a data existe (anos de 2000 a 2100, considerando anos bissextos); informar quantos dias tem um mês e se um ano é bissexto; comparar-se com outra data; somar dias e gerar nova data; formatar-se como texto (DD/MM/AA) | nenhum |
+| **Horario** | Armazenar hora e minuto; validar o intervalo (0 a 23 horas, 0 a 59 minutos); converter-se em minutos desde 00:00; comparar-se com outro horário; somar minutos e gerar o horário de término (volta a 00:00 após 23:59); formatar-se como texto (HH:MM) | nenhum |
+| **Usuario** (abstrata) | Armazenar login e senha, recusando valores vazios; verificar se uma senha confere; informar seu login; declarar a interface de menu a ser especializada pelas subclasses | nenhum |
+| **Cliente** (herda de Usuario) | Exibir o menu do cliente; exibir os filmes em cartaz; conduzir a compra (escolher filme, dia e horário, exibir o mapa e ler os assentos); solicitar à sessão a reserva dos assentos e gerar um ingresso para cada um; manter a lista de ingressos comprados e liberá-los ao ser destruído; adicionar ingresso; listar seus ingressos (aba "Meus Ingressos"); cancelar um ingresso e solicitar a liberação do assento; informar se possui ingresso de uma determinada sessão; informar quantos ingressos possui | Usuario, Cinema, Filme, Sessao, Ingresso, Data, Horario, Entrada |
+| **Administrador** (herda de Usuario) | Exibir o menu de administração; ler os dados de lançamento (nome, duração, sala, data de estreia, dias em cartaz e horários); encaminhar ao Cinema as operações de lançamento e exclusão de filmes; exibir os filmes em cartaz | Usuario, Cinema, Data, Horario, Entrada |
+| **Sala** | Identificar-se pelo número; manter as sessões nela agendadas (sem ser dona delas); detectar conflito de horário para uma nova sessão (duração do filme + 15 minutos, inclusive após a meia-noite); registrar sessão agendada; remover sessão da agenda quando o filme sai de cartaz | Sessao, Filme, Data, Horario |
+| **Filme** | Armazenar nome, duração e sala; criar e possuir suas sessões, uma por dia e horário, consultando a sala sobre conflitos (se houver conflito, nenhuma sessão é criada); listar os dias em que está disponível; listar os horários de um determinado dia; buscar a sessão de um dia e horário; informar se possui ingressos vendidos; liberar suas sessões ao ser destruído, removendo-as da agenda da sala | Sessao, Sala, Data, Horario |
+| **Sessao** | Armazenar filme, data, horário e sala; manter o mapa 5x5 de assentos; exibir o mapa distinguindo assentos livres (.) de ocupados (X); validar e converter código de assento em posição (A1 a E5, aceitando letra minúscula); reservar um ou mais assentos em uma única operação (se algum for inexistente, repetido ou ocupado, nenhum é reservado); liberar assento; informar se um assento está ocupado; informar se há assentos ocupados; calcular seu horário de término a partir da duração do filme | Filme, Sala, Data, Horario |
+| **Ingresso** | Referenciar a sessão e o assento adquirido; exibir ao cliente filme, sala, data, horário de início e de término e assento; devolver o assento à sessão quando cancelado | Sessao, Filme, Sala, Data, Horario |
+| **Cinema** | Criar o administrador e as três salas na inicialização do sistema; cadastrar novos clientes, recusando logins já usados (inclusive o do administrador); autenticar usuários e abrir o menu correspondente ao perfil; manter o cartaz de filmes e as três salas; buscar sala pelo número; lançar filme, descartando-o se Filme e Sala acusarem conflito de horário; excluir filme validando existência de ingressos vendidos; listar os filmes em cartaz com duração e sala; executar o laço principal do sistema (menu inicial: entrar, criar conta, sair); liberar toda a memória alocada | Usuario, Cliente, Administrador, Filme, Sala, Data, Horario, Entrada |
+| **Entrada** (módulo auxiliar, não é classe) | Ler uma linha de texto, removendo espaços nas pontas; ler um número inteiro dentro de um intervalo, repetindo a pergunta até ser válido; limpar a tela do terminal; pausar até o usuário apertar Enter; sinalizar o fim da entrada (EOF) para o programa encerrar sem erro | nenhum |
 
-Diferenças entre os cartões e a implementação:
-
-- **Módulo `Entrada`:** não é uma classe do CRC. É um conjunto de funções de leitura do teclado (`lerTexto` e `lerInteiro`) usado pelos menus de `Cinema`, `Cliente` e `Administrador`. Ele concentra o tratamento de entrada inválida exigido pelo RNF05, para não repetir o mesmo código nos três menus.
-- **Colaborações extras:** `Sessao` consulta o `Filme` para obter o nome e a duração; `Sala` consulta o `Filme` de cada sessão para saber a duração na verificação de conflito; `Cliente` consulta o `Cinema` para exibir o cartaz.
+Observação sobre o módulo `Entrada`: ele não é uma classe, e sim um `namespace` com as funções de leitura do teclado (`lerTexto`, `lerInteiro`, `limparTela` e `pausar`) usadas pelos menus de `Cinema`, `Cliente` e `Administrador`. Ele concentra o tratamento de entrada inválida exigido pelo RNF05, para não repetir o mesmo código nos três menus. Foi incluído na tabela porque aparece como colaborador dessas classes.
 
 ## Funcionalidades entregues e fora do escopo
 
@@ -120,21 +118,21 @@ TP/
 ├── Makefile          # make, make run, make clean
 ├── Doxyfile          # configuração do Doxygen
 ├── README.md
-├── include/          # um .h por classe (contratos)
-├── src/              # um .cpp por classe + main.cpp
+├── include/          # um .h por classe e para o módulo Entrada (contratos)
+├── src/              # um .cpp por classe, Entrada.cpp e main.cpp
 ├── tests/            # testes isolados (não entram no executável)
 ├── docs/             # requisitos e documentação gerada pelo Doxygen
 ├── build/            # arquivos .o gerados pelo make (ignorados pelo git)
 └── bin/              # executável gerado pelo make (ignorado pelo git)
 ```
 
-**Dependências entre as classes** (cada uma depende das que estão antes):
+**Dependências entre as classes** (de forma geral, cada camada usa as que estão antes):
 
 ```
-Data, Horario → Sala, Sessao → Filme, Ingresso → Usuario → Cliente, Administrador → Cinema → main
+Data, Horario, Entrada → Sala, Sessao, Filme → Ingresso → Usuario → Cliente, Administrador → Cinema → main
 ```
 
-`Sala` e `Sessao` se referenciam mutuamente; por isso os `.h` usam *forward declaration* (`class Sessao;`) em vez de incluir um ao outro.
+`Sala`, `Sessao` e `Filme` se referenciam mutuamente (a sessão conhece seu filme e sua sala; a sala consulta o filme de cada sessão para saber a duração; o filme cria as sessões e as registra na sala). Por isso os `.h` usam *forward declaration* (`class Sessao;`, `class Filme;`, `class Sala;`) em vez de incluir um ao outro.
 
 **Conceitos de orientação a objetos aplicados:**
 
