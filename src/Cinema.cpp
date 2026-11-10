@@ -43,6 +43,7 @@ Cinema::~Cinema() {
 void Cinema::executar() {
     try {
         while (true) {
+            Entrada::limparTela();
             cout << "\n=== Cine PDS ===\n"
                       << kOpcaoEntrar << ". Entrar\n"
                       << kOpcaoCadastrar << ". Criar conta\n"
@@ -132,6 +133,7 @@ void Cinema::executarOpcao(int opcao) {
             cadastrarPeloMenu();
     } catch (const logic_error& erro) {
         cout << "Erro: " << erro.what() << '\n';
+        Entrada::pausar();  // deixa o erro visível antes de limpar a tela
     }
 }
 
@@ -147,6 +149,7 @@ void Cinema::cadastrarPeloMenu() {
     string senha = Entrada::lerTexto("Nova senha: ");
     cadastrarCliente(login, senha);
     cout << "Conta criada. Use a opção Entrar para acessar.\n";
+    Entrada::pausar();
 }
 
 bool Cinema::loginExiste(const string& login) const {

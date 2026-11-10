@@ -31,6 +31,7 @@ Cliente::~Cliente() {
 
 void Cliente::exibirMenu(Cinema& cinema) {
     while (true) {
+        Entrada::limparTela();
         std::cout << "\n=== Cliente: " << getLogin() << " ===\n"
                   << kOpcaoVerFilmes << ". Ver filmes em cartaz\n"
                   << kOpcaoComprar << ". Comprar ingressos\n"
@@ -45,6 +46,7 @@ void Cliente::exibirMenu(Cinema& cinema) {
         } catch (const std::logic_error& erro) {
             std::cout << "Erro: " << erro.what() << '\n';
         }
+        Entrada::pausar();  // deixa o resultado visível antes de limpar a tela
     }
 }
 

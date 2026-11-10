@@ -28,6 +28,7 @@ Administrador::Administrador(const string& login, const string& senha)
 
 void Administrador::exibirMenu(Cinema& cinema) {
     while (true) {
+        Entrada::limparTela();
         cout << "\n=== Administrador ===\n"
                   << kOpcaoLancar << ". Lançar filme\n"
                   << kOpcaoExcluir << ". Excluir filme\n"
@@ -41,6 +42,7 @@ void Administrador::exibirMenu(Cinema& cinema) {
         } catch (const logic_error& erro) {
             cout << "Erro: " << erro.what() << '\n';
         }
+        Entrada::pausar();  // deixa o resultado visível antes de limpar a tela
     }
 }
 

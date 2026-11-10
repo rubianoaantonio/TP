@@ -1,5 +1,6 @@
 #include "Entrada.h"
 
+#include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 
@@ -46,4 +47,16 @@ int Entrada::lerInteiro(const std::string& mensagem, int minimo, int maximo) {
         std::cout << "Valor inválido. Digite um número entre " << minimo
                   << " e " << maximo << ".\n";
     }
+}
+
+void Entrada::limparTela() {
+#ifdef _WIN32
+    std::system("cls");
+#else
+    std::cout << "\033[2J\033[H" << std::flush;  // apaga a tela e volta o cursor ao topo
+#endif
+}
+
+void Entrada::pausar() {
+    lerTexto("\nPressione Enter para continuar...");
 }
