@@ -8,7 +8,8 @@
  *
  * Concentram o tratamento de entrada inválida (RNF05): texto onde se
  * espera número e opções fora do intervalo são recusados e a pergunta
- * é refeita, sem encerrar o programa.
+ * é refeita, sem encerrar o programa. Também limpam a tela e pausam
+ * entre uma interação e outra, para o terminal não acumular texto.
  */
 namespace Entrada {
 
@@ -31,6 +32,21 @@ std::string lerTexto(const std::string& mensagem);
  * @throws std::runtime_error se a entrada terminar (fim de arquivo).
  */
 int lerInteiro(const std::string& mensagem, int minimo, int maximo);
+
+/**
+ * @brief Limpa o terminal antes de exibir um menu.
+ *
+ * Usa o comando "cls" no Windows e um código de escape ANSI no
+ * Linux e no macOS.
+ */
+void limparTela();
+
+/**
+ * @brief Espera o usuário apertar Enter, para que ele leia o resultado
+ *        da operação antes de a tela ser limpa.
+ * @throws std::runtime_error se a entrada terminar (fim de arquivo).
+ */
+void pausar();
 
 }  // namespace Entrada
 
