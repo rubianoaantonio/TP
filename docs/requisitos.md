@@ -3,10 +3,10 @@
 ### Autenticação
 
 **US01** — Como visitante, quero criar uma conta informando login e senha, para poder comprar ingressos.
-*Critério: logins duplicados (inclusive o login do administrador) e login ou senha vazios são recusados.*
+*Critério: logins duplicados são recusados.*
 
 **US02** — Como usuário cadastrado, quero entrar com meu login e senha, para acessar as funções do meu perfil.
-*Critério: após a autenticação, o sistema abre o menu correspondente ao perfil (cliente ou administrador).*
+*Critério: após a autenticação, o sistema abre o menu correspondente ao perfil*
 
 **US03** — Como visitante, quero ser avisado quando o login não existe ou a senha está incorreta, para saber que preciso me cadastrar ou corrigir os dados.
 
@@ -16,7 +16,7 @@
 ### Administrador
 
 **US05** — Como administrador, quero lançar um novo filme informando nome, duração, sala, data de estreia, quantidade de dias em cartaz e horários de exibição, para montar a programação do cinema.
-*Critério: o sistema gera automaticamente uma sessão para cada combinação de dia e horário informados. Limites aceitos: duração de 1 a 600 minutos, sala de 1 a 3, ano de 2000 a 2100, de 1 a 365 dias em cartaz e de 1 a 10 horários por dia. Datas inexistentes (ex.: 31/02) são recusadas.*
+*Critério: o sistema gera automaticamente uma sessão para cada combinação de dia e horário informados. Limites aceitos: duração de 1 a 600 minutos, sala de 1 a 3, ano de 2000 a 2100, de 1 a 365 dias em cartaz e de 1 a 10 horários por dia. Datas inexistentes são recusadas.*
 
 **US06** — Como administrador, quero ser impedido de agendar uma sessão que se sobreponha a outra já existente na mesma sala, para não haver dois filmes passando ao mesmo tempo no mesmo espaço.
 *Critério: a sobreposição considera a duração do filme mais 15 minutos de intervalo entre sessões, inclusive entre sessões do próprio filme e sessões que passam da meia-noite. Se qualquer sessão entrar em conflito, nenhuma sessão do filme é criada.*
@@ -138,7 +138,7 @@
 **Responsabilidades**
 - Identificar-se pelo número
 - Manter as sessões nela agendadas (sem ser dona delas)
-- Detectar conflito de horário para uma nova sessão (duração do filme + 15 minutos, inclusive após a meia-noite)
+- Detectar conflito de horário para uma nova sessão (duração do filme + 15 minutos)
 - Registrar sessão agendada
 - Remover sessão da agenda quando o filme sai de cartaz
 
