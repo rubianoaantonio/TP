@@ -2,7 +2,7 @@
 
 Sistema de venda de ingressos para um cinema de 3 salas, operado por menus numerados no terminal. Trabalho prático da disciplina Programação e Desenvolvimento de Software II (PDS II) da UFMG.
 
-> **Vídeo de demonstração:** [PREENCHER: link do vídeo]
+> **Vídeo de demonstração:** https://drive.google.com/file/d/1MvoZLcYVtjXzEVnXQGpf7FNBlFFSbtqF/view?usp=drive_link
 
 ## Sumário
 
